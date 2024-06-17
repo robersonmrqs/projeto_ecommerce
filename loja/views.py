@@ -2,12 +2,14 @@ from django.shortcuts import render
 from .models import *
 
 def homepage(request):
-    banners = Banner.objects.all()
+    banners = Banner.objects.filter(ativo=True)
     context = {'banners': banners}
     return render(request, 'homepage.html', context)
 
-def loja(request):
-    produtos = Produto.objects.all()
+def loja(request, nome_categoria=None):
+    produtos = Produto.objects.filter(ativo=True)
+    if nome_categoria:
+        produtos = produtos.filter(categoria__nome=nome_categoria)
     context = {'produtos': produtos}
     return render(request, 'loja.html', context)
 
